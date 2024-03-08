@@ -28,6 +28,7 @@ class TreeNode {
     }
 
     // Generate child nodes by moving the blank space
+    //basically getting the possible moves from the position its in (parent node)
     generateChild() {
         const [x, y] = this.find(this.data, '_');
         const valList = [[x, y - 1], [x - 1, y], [x, y + 1], [x + 1, y]];
@@ -55,12 +56,10 @@ class TreeNode {
         }
     }
 
-    // Helper method to copy the puzzle
     copy(root) {
         return root.map(row => [...row]);
     }
 
-    // Helper method to find the position of the blank space
     find(puz, x) {
         for (let i = 0; i < puz.length; i++) {
             for (let j = 0; j < puz[i].length; j++) {

@@ -114,7 +114,7 @@ class Puzzle {
         }
 
         const treeJson = start.toJson();
-        fs.writeFileSync('tree.json', JSON.stringify(treeJson, null, 2));
+        fs.writeFileSync('bfs_tree.json', JSON.stringify(treeJson, null, 2));
 
     }
 
@@ -187,7 +187,7 @@ class Puzzle {
             currentNode = currentNode.children[0];
         }
         const treeJson = path.toJson();
-        fs.writeFileSync('tree.json', JSON.stringify(treeJson, null, 2));
+        fs.writeFileSync('aStar_tree.json', JSON.stringify(treeJson, null, 2));
     }
 
 }
