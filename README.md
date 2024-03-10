@@ -14,7 +14,14 @@ pip3 install -r requirements.txt
 
 ## Usage
 ### Input Files
-Place your initial state and goal state puzzle configurations in separate text files (e.g., start.txt and goal.txt). Each file should contain a 3x3 grid of numbers representing the puzzle configuration, with the blank space represented as an underscore "_".
+Place your initial state and goal state puzzle configurations in separate text files (e.g., start.txt and goal.txt). Each file should contain a even dimention grid of numbers representing the puzzle configuration, with the blank space represented as an underscore "_".
+For example: (3x3, 5x5, etc.)
+
+### Edit index.js
+```js
+// Object of class Puzzle for a 3x3 grid puzzle (8 puzzle)
+const puzzle_8 = new Puzzle(3); //replace for desired dimensions
+```
 
 ### Example start.txt
 ```
