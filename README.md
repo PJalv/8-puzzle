@@ -9,7 +9,7 @@ To get started with this project, clone the repository and install the required 
 ```bash
 git clone https://github.com/PJalv/8-puzzle.git
 cd 8-puzzle
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Usage
