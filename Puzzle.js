@@ -41,22 +41,23 @@ class Puzzle {
     }
 
     f(start, goal) {
-        return this.h(start.data, goal.data) + start.level;
+        return this.manhattan(start.data, goal.data) + start.level;
     }
 
-    // h(start, goal) {
-    //     let temp = 0;
-    //     for (let i = 0; i < this.n; i++) {
-    //         for (let j = 0; j < this.n; j++) {
-    //             if (start[i][j] !== goal[i][j] && start[i][j] !== '_') {
-    //                 temp += 1;
-    //             }
-    //         }
-    //     }
-    //     return temp;
-    // }
+    hamming(start, goal) {
+        let temp = 0;
+        for (let i = 0; i < this.n; i++) {
+            for (let j = 0; j < this.n; j++) {
+                if (start[i][j] !== goal[i][j] && start[i][j] !== '_') {
+                    temp += 1;
+                }
+            }
+        }
+        return temp;
+    }
 
-    h(start, goal) {
+
+    manhattan(start, goal) {
         let temp = 0;
         for (let i = 0; i < this.n; i++) {
             for (let j = 0; j < this.n; j++) {
@@ -91,9 +92,7 @@ class Puzzle {
         visited.add(start.data.toString());
 
         bfs_loop: while (queue.length > 0) {
-            let newChildren = 0;
             const curNode = queue.shift();
-
             const children = curNode.generateChild();
 
             for (const child of children) {
@@ -101,16 +100,12 @@ class Puzzle {
                     visited.add(child.data.toString());
                     if (visited.has(goal.data.toString())) {
                         curNode.addChild(child);
-                        newChildren++;
                         break bfs_loop;
                     }
                     curNode.addChild(child);
                     queue.push(child);
-                    newChildren++;
                 }
-
             }
-
         }
 
         const treeJson = start.toJson();
@@ -138,23 +133,21 @@ class Puzzle {
         start.fval = this.f(start, goal);
         const visited = new Set();
         visited.add(start.data.toString());
-        console.log("F value of starting position: ", start.fval);
+        // console.log("F value of starting position: ", start.fval);
 
         this.open.push(start);
 
         let moves = 0;
         let curNode;
-        let validChildren;
         while (this.open.length > 0) {
-            validChildren = 0;
             curNode = this.open.shift(); // A*: Select node with lowest fval
             this.open = [];
-            console.log("F val of current node: ", curNode.fval)
+            // console.log("F val of current node: ", curNode.fval)
             for (const i of curNode.data) {
                 console.log(i.join(' '));
             }
             console.log("\n");
-            if (this.h(curNode.data, goal.data) === 0) {
+            if (this.manhattan(curNode.data, goal.data) === 0) {
                 console.log("Goal State Reached!");
                 path_arr = this.getPath(curNode)
                 break;
@@ -166,19 +159,16 @@ class Puzzle {
                     this.open.push(child);
                     curNode.addChild(child);
                     visited.add(child.data.toString())
-                    validChildren++;
                 }
             }
-            console.log("Valid Children: ", validChildren);
             this.closed.push(curNode);
             this.open.sort((a, b) => a.fval - b.fval); // A*: Sort by fval
-            this.open.forEach((index) => { console.log("F VALUE:", index.fval) })
-            // console.log(this.open);
+            // this.open.forEach((index) => { console.log("F VALUE:", index.fval) })
 
             moves++;
         }
 
-        console.log(`\n\nTotal Moves using A-Star: ${moves}`);
+        // console.log(`\n\nTotal Moves using A-Star: ${moves}`);
         const path = new TreeNode(path_arr[0], 0, 0, null);
         let currentNode = path;
         for (let index = 1; index < path_arr.length; index++) {
