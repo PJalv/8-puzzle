@@ -90,9 +90,10 @@ class Puzzle {
         const queue = [start];
         const visited = new Set();
         visited.add(start.data.toString());
-
+        let moves = 0;
         bfs_loop: while (queue.length > 0) {
             const curNode = queue.shift();
+
             const children = curNode.generateChild();
 
             for (const child of children) {
@@ -100,14 +101,17 @@ class Puzzle {
                     visited.add(child.data.toString());
                     if (visited.has(goal.data.toString())) {
                         curNode.addChild(child);
+                        moves++
                         break bfs_loop;
                     }
                     curNode.addChild(child);
                     queue.push(child);
+                    moves++;
                 }
             }
-        }
 
+        }
+        console.log(`\n\nTotal Moves using BFS: ${moves}`);
         const treeJson = start.toJson();
         fs.writeFileSync('bfs_tree.json', JSON.stringify(treeJson, null, 2));
 
@@ -168,7 +172,7 @@ class Puzzle {
             moves++;
         }
 
-        // console.log(`\n\nTotal Moves using A-Star: ${moves}`);
+        console.log(`\n\nTotal Moves using A-Star: ${moves}`);
         const path = new TreeNode(path_arr[0], 0, 0, null);
         let currentNode = path;
         for (let index = 1; index < path_arr.length; index++) {
