@@ -80,7 +80,14 @@ class Puzzle {
         }
         return null;
     }
-
+    getPath(node) {
+        const path = [];
+        while (node) {
+            path.unshift(node.data);
+            node = node.parent;
+        }
+        return path;
+    }
     async process_bfs(startFilePath, goalFilePath) {
         let start = await this.accept(startFilePath);
         let goal = await this.accept(goalFilePath);
@@ -117,14 +124,7 @@ class Puzzle {
 
     }
 
-    getPath(node) {
-        const path = [];
-        while (node) {
-            path.unshift(node.data);
-            node = node.parent;
-        }
-        return path;
-    }
+
 
     async process_aStar(startFilePath, goalFilePath) {
         let start = await this.accept(startFilePath);
